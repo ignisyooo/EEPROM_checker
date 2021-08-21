@@ -13,10 +13,9 @@
 
 #include "Comunication.h"
 
-
 volatile char ReceivedFrame[MAX_MSG_LENGTH];
-
 volatile bool is_updated = false;
+extern STD_Error error_code;
 
 void UART_init(void)
 {
@@ -90,9 +89,14 @@ FrameType GetFrameType(void)
 	{
 		retVal = SHORT_BIT;
 	}
+	else if(strstr(ReceivedFrame, "CONNECTION"))
+	{
+		retVal = CONNECTION;
+	}
 	else
 	{
 		retVal = UNKNOWN;
+		error_code = STD_COMMAND_ERROR;
 	}
 
 	return retVal;

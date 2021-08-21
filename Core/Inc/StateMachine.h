@@ -13,6 +13,7 @@
 #define SM_INTERFACE(INPUT_MACRO) \
 		INPUT_MACRO(Init, InitStateHandler) \
 		INPUT_MACRO(WaitForAction, WaitForActionHandler) \
+		INPUT_MACRO(ConnectionCheck, ConnectionCheckHandler) \
 		INPUT_MACRO(Config, ConfigHandler) \
 		INPUT_MACRO(RunTest, RunTestHandler) \
 		INPUT_MACRO(RaportGeneration, RaportGenerationHandler) \

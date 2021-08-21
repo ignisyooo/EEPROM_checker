@@ -30,6 +30,7 @@ typedef enum
 	SINGLE,
 	MATS,
 	SHORT_BIT,
+	CONNECTION,
 	UNKNOWN
 }FrameType;
 

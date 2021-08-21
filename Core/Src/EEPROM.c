@@ -27,15 +27,29 @@ void EEPROM_Set_Parameters(uint8_t mem_address, uint16_t mem_size, uint16_t page
 	eeprom_sett.isReady = true;
 }
 
+bool EEPROM_isConnected(void)
+{
+	bool retVal = true;
+	if(HAL_OK != HAL_I2C_IsDeviceReady(eeprom_sett.i2c, eeprom_sett.config.mem_address, 2, 10))
+	{
+		retVal = false;
+	}
+
+	return retVal;
+}
+
 EEPROM_Config_T *EEPROM_Get_ConfigData(void)
 {
 	return &eeprom_sett.config;
 }
 
-STD_Error EEPROM_Write(uint8_t address, const uint8_t * data, size_t size)
+STD_Error EEPROM_Write(uint8_t address, const uint8_t * data, int size)
 {
 	STD_Error retVal = STD_OK;
 	HAL_StatusTypeDef halErr;
+
+	if(!EEPROM_isConnected())
+		retVal = STD_TIMEOUT_ERROR;
 
 	if(!eeprom_sett.isReady)
 		retVal = STD_BUSY_ERROR;
@@ -49,7 +63,7 @@ STD_Error EEPROM_Write(uint8_t address, const uint8_t * data, size_t size)
 			size = eeprom_sett.config.mem_size - address;
 
 		uint8_t offset = 0;
-		uint8_t sendSize = eeprom_sett.config.mem_size - (address % eeprom_sett.config.page_size);
+		uint8_t sendSize = eeprom_sett.config.page_size - (address % eeprom_sett.config.page_size);
 
 		if(!sendSize)
 			sendSize = eeprom_sett.config.page_size;
@@ -89,9 +103,12 @@ STD_Error EEPROM_Write(uint8_t address, const uint8_t * data, size_t size)
 	return retVal;
 }
 
-STD_Error EEPROM_Read(uint8_t address, uint8_t *data, size_t size)
+STD_Error EEPROM_Read(uint8_t address, uint8_t *data, int size)
 {
 	STD_Error retVal = STD_OK;
+
+	if(!EEPROM_isConnected())
+		retVal = STD_TIMEOUT_ERROR;
 
     if(!eeprom_sett.isReady)
         retVal = STD_BUSY_ERROR;

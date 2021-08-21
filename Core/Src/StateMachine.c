@@ -14,6 +14,7 @@ static void InitStateHandler(void);
 static void RunTestHandler(void);
 static void WaitForActionHandler(void);
 static void RaportGenerationHandler(void);
+static void ConnectionCheckHandler(void);
 
 
 static StateMachine_T SM_interface[] = {
@@ -21,12 +22,11 @@ static StateMachine_T SM_interface[] = {
 };
 
 extern volatile bool is_updated;
-
 volatile SM_state_T State = Init;
-
 static FrameType frame = UNKNOWN;
-
 STD_Error error_code = STD_OK;
+
+static char error_msg[150];
 
 static void ConfigHandler(void)
 {
@@ -86,14 +86,32 @@ static void WaitForActionHandler(void)
 			case SINGLE:
 			case MATS:
 			case SHORT_BIT:
-				State =  RunTest;
+				State = RunTest;
+				break;
+			case CONNECTION:
+				State = ConnectionCheck;
 				break;
 			default:
-				LogData("Invalid data frame received");
+				(void)sprintf(error_msg, "Invalid data frame received\n\rError code: %s\n\r", getErrorCode(error_code));
+				LogData(error_msg);
 				break;
 		}
 		is_updated = false;
 	}
+}
+
+static void ConnectionCheckHandler(void)
+{
+	if(EEPROM_isConnected())
+	{
+		LogData("Device detected\n\r");
+	}
+	else
+	{
+		(void)sprintf(error_msg, "The device with the address: 0x%.2X was not detected. Check if the given address is correct, or check the connection to the microcontroller\n\r", EEPROM_Get_ConfigData()->mem_address);
+		LogData(error_msg);
+	}
+	State = WaitForAction;
 }
 
 
