@@ -13,7 +13,7 @@ static EEPROM_settings_T eeprom_sett;
 void EEPROM_Init(I2C_HandleTypeDef *hi2c)
 {
 	eeprom_sett.i2c = hi2c;
-	eeprom_sett.isReady = true;
+	eeprom_sett.isReady = false;
 	eeprom_sett.config.mem_address = 0;
 	eeprom_sett.config.mem_size = 0;
 	eeprom_sett.config.page_size = 0;
@@ -24,6 +24,12 @@ void EEPROM_Set_Parameters(uint8_t mem_address, uint16_t mem_size, uint16_t page
 	eeprom_sett.config.mem_address = mem_address;
 	eeprom_sett.config.mem_size = mem_size;
 	eeprom_sett.config.page_size = page_size;
+	eeprom_sett.isReady = true;
+}
+
+EEPROM_Config_T *EEPROM_Get_ConfigData(void)
+{
+	return &eeprom_sett.config;
 }
 
 STD_Error EEPROM_Write(uint8_t address, const uint8_t * data, size_t size)
@@ -51,11 +57,8 @@ STD_Error EEPROM_Write(uint8_t address, const uint8_t * data, size_t size)
 			sendSize = size;
 
 
-        do
-        {
-            halErr = HAL_I2C_Mem_Write(eeprom_sett.i2c, eeprom_sett.config.mem_address, address, 1, data, sendSize, HAL_MAX_DELAY);
-        }
-        while(halErr != HAL_OK);
+
+		halErr = HAL_I2C_Mem_Write(eeprom_sett.i2c, eeprom_sett.config.mem_address, address, 1, data, sendSize, 10);
 
         retVal = translate_error_hal_to_project(halErr);
 
@@ -67,13 +70,10 @@ STD_Error EEPROM_Write(uint8_t address, const uint8_t * data, size_t size)
 
         while(size > 0)
         {
-            do
-            {
-                halErr = HAL_I2C_Mem_Write(eeprom_sett.i2c, eeprom_sett.config.mem_address, address + offset, 1,
-                    data + offset, size > eeprom_sett.config.page_size ? eeprom_sett.config.page_size : size,
-                    HAL_MAX_DELAY);
-            }
-            while(halErr != HAL_OK);
+
+			halErr = HAL_I2C_Mem_Write(eeprom_sett.i2c, eeprom_sett.config.mem_address, address + offset, 1,
+				data + offset, size > eeprom_sett.config.page_size ? eeprom_sett.config.page_size : size,
+				10);
 
             retVal = translate_error_hal_to_project(halErr);
 
@@ -106,12 +106,9 @@ STD_Error EEPROM_Read(uint8_t address, uint8_t *data, size_t size)
 
         HAL_StatusTypeDef halErr;
 
-        do
-        {
-            halErr = HAL_I2C_Mem_Read(eeprom_sett.i2c, eeprom_sett.config.mem_address, address, 1, data, size,
-                HAL_MAX_DELAY);
-        }
-        while(halErr != HAL_OK);
+		halErr = HAL_I2C_Mem_Read(eeprom_sett.i2c, eeprom_sett.config.mem_address, address, 1, data, size,
+			10);
+
 
         retVal = translate_error_hal_to_project(halErr);
     }

@@ -19,13 +19,16 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "dma.h"
 #include "i2c.h"
 #include "usart.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "EEPROM.h"
+
+#include "StateMachine.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -87,23 +90,18 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_I2C1_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
-  EEPROM_Init(&hi2c1);
+
   /* USER CODE END 2 */
-  uint8_t input_data[] = {10, 20, 30, 40};
-  uint8_t output_data[4] = {0};
 
-  EEPROM_Set_Parameters(0xa0, 128, 8);
-
-  EEPROM_Write(0x00, input_data, 4);
-  HAL_Delay(10);
-  EEPROM_Read(0x00, output_data, 4);
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  StateMachineHandle();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

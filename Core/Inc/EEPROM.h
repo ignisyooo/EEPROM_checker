@@ -13,6 +13,8 @@
 #include "i2c.h"
 #include "ErrorCode.h"
 
+#define MINIMUM_TIME (5)
+
 typedef struct
 {
 	uint8_t mem_address;
@@ -32,5 +34,7 @@ void EEPROM_Set_Parameters(uint8_t mem_address, uint16_t mem_size, uint16_t page
 
 STD_Error EEPROM_Write(uint8_t address, const uint8_t * data, size_t size);
 STD_Error EEPROM_Read(uint8_t address, uint8_t *data, size_t size);
+
+EEPROM_Config_T *EEPROM_Get_ConfigData(void);
 
 #endif /* INC_EEPROM_H_ */
