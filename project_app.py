@@ -10,9 +10,17 @@
 import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import QDate, QTime, QDateTime, Qt
-
+import serial
 
 class Ui_MainWindow(object):
+
+    ser = serial.Serial(
+        parity = serial.PARITY_NONE,
+        stopbits = serial.STOPBITS_ONE,
+        bytesize = serial.EIGHTBITS,
+        timeout = 1
+    )
+
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1107, 978)
@@ -238,19 +246,23 @@ class Ui_MainWindow(object):
 
     def f_connect_button(self, text):
         self.status_connect.setText(text)
+        self.conn_to_COM_port(115200)
         # print info
         self.insert_text("Connected to Port ", self.port_com.currentText())
         self.log_window.insertPlainText("Select memory parameters and press 'Send parameters' to continue\n")
 
     def f_send_param_button(self, text):
         self.status_send.setText(text)
+        to_send = ('CONFIG_MA_' + self.i2c_addr.text() + '_MS_' + self.memory_size.text() + '_PS_' + self.page_size.text() + '_END')
+        b_to_send = bytes(to_send, 'utf-8')
+        self.ser.write(b_to_send)
         # take info from Memory parameters
         print(self.memory_size.text())
         print(self.page_size.text())
         print(self.i2c_addr.text())
+        
         # print info
         self.insert_text("Parameters sent\n", "Select test to continue")
-        
 
     def f_save_button(self):
         # save text into log.txt
@@ -261,17 +273,19 @@ class Ui_MainWindow(object):
 
 
     def f_clear_button(self):
-        self.log_window.clear() 
-    
+        self.log_window.clear()
 
     def single_test(self):
         self.insert_text("Single test started. Test pattern = ", self.test_pattern.text())
+        to_send = ('SINGLE_TEST_' + self.test_pattern.text() + '_xxxxxxxxxx_END')
+        b_to_send = bytes(to_send, 'utf-8')
+        self.ser.write(b_to_send)
 
     def mats_test(self):
         self.insert_text("Mats+ test started", "")
 
     def short_test(self):
-        self.insert_text("Short bit test started", "")        
+        self.insert_text("Short bit test started", "")
 
     def insert_text(self, text1, text2):
         # insert current date into log window
@@ -284,6 +298,10 @@ class Ui_MainWindow(object):
         self.log_window.insertPlainText(text2)
         self.log_window.insertPlainText("\n")
 
+    def conn_to_COM_port(self, baudrt):
+        self.ser.port = self.port_com.currentText()
+        self.ser.baudrate = 115200
+        self.ser.open()
 
 if __name__ == "__main__":
     import sys
@@ -293,3 +311,4 @@ if __name__ == "__main__":
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
+    
