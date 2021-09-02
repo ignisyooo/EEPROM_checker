@@ -34,7 +34,7 @@ static void ConfigHandler(void)
 	uint16_t memory_size = GetMemorySize();
 	uint16_t page_size = GetPageSize();
 	EEPROM_Set_Parameters(memory_address, memory_size, page_size);
-	LogData("The parameters have been saved\n\r");
+	LogData("The parameters have been saved\n");
 	LogData("Waiting for the test method to be selected\n\r");
 	State = WaitForAction;
 }

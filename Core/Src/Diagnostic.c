@@ -47,7 +47,7 @@ STD_Error ExecuteSingleTest(uint8_t test_value)
 	STD_Error error_code = STD_OK;
 	uint8_t read_value = 0;
 	SetTestParameters(EEPROM_Get_ConfigData(), test_value);
-	LogData("Single test procedure was started\n\r");
+	LogData("Single test procedure was started\n");
 
 	uint32_t start = HAL_GetTick();
 	uint32_t end = 0;
@@ -57,7 +57,7 @@ STD_Error ExecuteSingleTest(uint8_t test_value)
 	{
 		end = HAL_GetTick();
 		TestParameters.duration_of_the_test = end - start;
-		(void)sprintf(DiagonosticMsg, "Test fail\n\rError while writing value: 0x%.2X to the memory at the address: 0x%.2X\n\rTest duration: %u ms\n\r",
+		(void)sprintf(DiagonosticMsg, "Test fail\nError while writing value: 0x%.2X to the memory at the address: 0x%.2X\nTest duration: %u ms\n",
 				TestParameters.testValue, TestParameters.address, TestParameters.duration_of_the_test);
 		return error_code;
 	}
@@ -67,19 +67,19 @@ STD_Error ExecuteSingleTest(uint8_t test_value)
 	TestParameters.duration_of_the_test = end - start;
 	if(STD_OK != error_code)
 	{
-		(void)sprintf(DiagonosticMsg, "Test fail\n\rError while reading value from the memory at the address: 0x%.2X\n\rTest duration: %u ms\n\r",
+		(void)sprintf(DiagonosticMsg, "Test fail\nError while reading value from the memory at the address: 0x%.2X\nTest duration: %u ms\n\r",
 				TestParameters.address, TestParameters.duration_of_the_test);
 		return error_code;
 	}
 
 	if(TestParameters.testValue == read_value)
 	{
-		(void)sprintf(DiagonosticMsg, "Test passed\n\rSuccessful reading the value 0x%.2X, from the address: 0x%.2X\n\rTest duration: %u ms\n\r",
+		(void)sprintf(DiagonosticMsg, "Test passed\nSuccessful reading the value 0x%.2X, from the address: 0x%.2X\nTest duration: %u ms\n\r",
 				TestParameters.testValue, TestParameters.address, TestParameters.duration_of_the_test);
 	}
 	else
 	{
-		(void)sprintf(DiagonosticMsg, "Test fail\n\rValue read: 0x%.2X, not equal to the test value: 0x%.2X, Test performed for the address: 0x%.2X\n\rTest duration: %u ms\n\r",
+		(void)sprintf(DiagonosticMsg, "Test fail\nValue read: 0x%.2X, not equal to the test value: 0x%.2X, Test performed for the address: 0x%.2X\nTest duration: %u ms\n",
 				read_value, TestParameters.testValue, TestParameters.address, TestParameters.duration_of_the_test);
 	}
 	return error_code;
@@ -92,7 +92,7 @@ STD_Error ExecuteMatsTest(void)
 	uint8_t read_value = 0;
 	uint8_t write_value = 0;
 	SetTestParameters(EEPROM_Get_ConfigData(), 0);
-	LogData("Mats+ test procedure was started\n\r");
+	LogData("Mats+ test procedure was started\n");
 	uint32_t start = HAL_GetTick();
 	uint32_t idx = 0;
 	uint32_t end = 0;
@@ -109,7 +109,7 @@ STD_Error ExecuteMatsTest(void)
 	{
 		end = HAL_GetTick();
 		TestParameters.duration_of_the_test = end - start;
-		(void)sprintf(DiagonosticMsg, "Test fail\n\rError while writing value: 0 to the memory at the address: 0x%.2X\n\rTest duration: %u ms\n\r",
+		(void)sprintf(DiagonosticMsg, "Test fail\nError while writing value: 0 to the memory at the address: 0x%.2X\nTest duration: %u ms\n",
 				idx, TestParameters.duration_of_the_test);
 		return error_code;
 	}
@@ -121,13 +121,13 @@ STD_Error ExecuteMatsTest(void)
 		error_code = EEPROM_Read(idx, &read_value, 1);
 		if(STD_OK != error_code)
 		{
-			(void)sprintf(DiagonosticMsg, "Test fail\n\rError while reading value from the memory at the address: 0x%.2X\n\rTest duration: %u ms\n\r",
+			(void)sprintf(DiagonosticMsg, "Test fail\nError while reading value from the memory at the address: 0x%.2X\nTest duration: %u ms\n",
 					idx, TestParameters.duration_of_the_test);
 			break;
 		}
 		if(0 != read_value)
 		{
-			(void)sprintf(DiagonosticMsg, "Test fail\n\rThe value read: 0x%.2X, not equal to the test value: 0, Test performed for the address: 0x%.2X\n\rTest duration: %u ms\n\r",
+			(void)sprintf(DiagonosticMsg, "Test fail\nThe value read: 0x%.2X, not equal to the test value: 0, Test performed for the address: 0x%.2X\nTest duration: %u ms\n",
 					read_value, TestParameters.address, TestParameters.duration_of_the_test);
 		}
 		HAL_Delay(MINIMUM_TIME);
@@ -136,7 +136,7 @@ STD_Error ExecuteMatsTest(void)
 		{
 			end = HAL_GetTick();
 			TestParameters.duration_of_the_test = end - start;
-			(void)sprintf(DiagonosticMsg, "Test fail\n\rError while writing value: 0xFF to the memory at the address: 0x%.2X\n\rTest duration: %u ms\n\r",
+			(void)sprintf(DiagonosticMsg, "Test fail\nError while writing value: 0xFF to the memory at the address: 0x%.2X\nTest duration: %u ms\n",
 					idx, TestParameters.duration_of_the_test);
 			break;
 		}
@@ -152,13 +152,13 @@ STD_Error ExecuteMatsTest(void)
 		error_code = EEPROM_Read(idx, &read_value, 1);
 		if(STD_OK != error_code)
 		{
-			(void)sprintf(DiagonosticMsg, "Test fail\n\rError while reading value from the memory at the address: 0x%.2X\n\rTest duration: %u ms\n\r",
+			(void)sprintf(DiagonosticMsg, "Test fail\nError while reading value from the memory at the address: 0x%.2X\nTest duration: %u ms\n",
 					idx, TestParameters.duration_of_the_test);
 			break;
 		}
 		if(0xFF != read_value)
 		{
-			(void)sprintf(DiagonosticMsg, "Test fail\n\rThe value read: 0x%.2X, not equal to the test value: 0xFF, Test performed for the address: 0x%.2X\n\rTest duration: %u ms\n\r",
+			(void)sprintf(DiagonosticMsg, "Test fail\nThe value read: 0x%.2X, not equal to the test value: 0xFF, Test performed for the address: 0x%.2X\nTest duration: %u ms\n",
 					read_value, TestParameters.address, TestParameters.duration_of_the_test);
 		}
 		HAL_Delay(MINIMUM_TIME);
@@ -167,7 +167,7 @@ STD_Error ExecuteMatsTest(void)
 		{
 			end = HAL_GetTick();
 			TestParameters.duration_of_the_test = end - start;
-			(void)sprintf(DiagonosticMsg, "Test fail\n\rError while writing value: 0 to the memory at the address: 0x%.2X\n\rTest duration: %u ms\n\r",
+			(void)sprintf(DiagonosticMsg, "Test fail\nError while writing value: 0 to the memory at the address: 0x%.2X\nTest duration: %u ms\n",
 					idx, TestParameters.duration_of_the_test);
 			break;
 		}
@@ -178,7 +178,7 @@ STD_Error ExecuteMatsTest(void)
 
 	end = HAL_GetTick();
 	TestParameters.duration_of_the_test = end - start;
-	(void)sprintf(DiagonosticMsg, "Test passed\n\rSuccessfully completed mats + test sequences\n\rTest duration: %u ms\n\r",
+	(void)sprintf(DiagonosticMsg, "Test passed\nSuccessfully completed mats + test sequences\nTest duration: %u ms\n\r",
 			TestParameters.duration_of_the_test);
 
 	return error_code;
@@ -189,7 +189,7 @@ STD_Error ExecuteShortBitTest(void)
 	STD_Error error_code = STD_OK;
 	uint8_t read_value = 0;
 	SetTestParameters(EEPROM_Get_ConfigData(), 0);
-	LogData("Short Bits test procedure was started\n\r");
+	LogData("Short Bits test procedure was started\n");
 	uint32_t start = HAL_GetTick();
 	uint32_t end = 0;
 	uint8_t write_value = 0x55;
@@ -201,8 +201,8 @@ STD_Error ExecuteShortBitTest(void)
 		{
 			end = HAL_GetTick();
 			TestParameters.duration_of_the_test = end - start;
-			(void)sprintf(DiagonosticMsg, "Test fail\n\rError while writing value: 0x55 to the memory at the address: 0x%.2X\n\r",
-					"Test duration: %u ms\n\r",
+			(void)sprintf(DiagonosticMsg, "Test fail\nError while writing value: 0x55 to the memory at the address: 0x%.2X\n",
+					"Test duration: %u ms\n",
 					idx, TestParameters.duration_of_the_test);
 			break;
 		}
@@ -212,14 +212,14 @@ STD_Error ExecuteShortBitTest(void)
 		error_code = EEPROM_Read(idx, &read_value, 1);
 		if(STD_OK != error_code)
 		{
-			(void)sprintf(DiagonosticMsg, "Test fail\n\rError while reading value from the memory at the address: 0x%.2X\n\r",
-					"Test duration: %u ms\n\r",
+			(void)sprintf(DiagonosticMsg, "Test fail\nError while reading value from the memory at the address: 0x%.2X\n",
+					"Test duration: %u ms\n",
 					idx, TestParameters.duration_of_the_test);
 			break;
 		}
 		if(0x55 != read_value)
 		{
-			(void)sprintf(DiagonosticMsg, "Test fail\n\rThe value read: 0x%.2X, not equal to the test value: 0x55, Test performed for the address: 0x%.2X\n\r%s\n\rTest duration: %u ms\n\r",
+			(void)sprintf(DiagonosticMsg, "Test fail\nThe value read: 0x%.2X, not equal to the test value: 0x55, Test performed for the address: 0x%.2X\n%s\nTest duration: %u ms\n",
 					read_value, TestParameters.address, Check_for_short_circuit_between_bits(0x55, read_value), TestParameters.duration_of_the_test);
 
 		}
@@ -230,7 +230,7 @@ STD_Error ExecuteShortBitTest(void)
 	{
 		end = HAL_GetTick();
 		TestParameters.duration_of_the_test = end - start;
-		(void)sprintf(DiagonosticMsg, "Test passed\n\rSuccessfully completed Short Bits test sequences\n\rTest duration: %u ms\n\r",
+		(void)sprintf(DiagonosticMsg, "Test passed\nSuccessfully completed Short Bits test sequences\nTest duration: %u ms\n\r",
 				TestParameters.duration_of_the_test);
 	}
 

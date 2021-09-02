@@ -1,0 +1,22 @@
+[czw. wrz 2 18:30:09 2021] Select Port COM and press 'Connect' to continue
+[czw. wrz 2 18:30:43 2021] This COM is not available, try another
+[czw. wrz 2 18:31:04 2021] Connected to Port COM3
+Select memory parameters and press 'Send parameters' to continue
+[czw. wrz 2 18:31:16 2021] The parameters have been saved
+Waiting for the test method to be selected 
+[czw. wrz 2 18:31:19 2021] Device detected 
+[czw. wrz 2 18:31:30 2021] Short bit test started
+[czw. wrz 2 18:31:32 2021] Short Bits test procedure was started
+Test passed
+Successfully completed Short Bits test sequences
+Test duration: 1536 ms 
+[czw. wrz 2 18:31:41 2021] Single test started. Test pattern = 0x10
+[czw. wrz 2 18:31:43 2021] Single test procedure was started
+Test passed
+Successful reading the value 0x10, from the address: 0x00
+Test duration: 6 ms 
+[czw. wrz 2 18:31:50 2021] Mats+ test started
+[czw. wrz 2 18:31:55 2021] Mats+ test procedure was started
+Test passed
+Successfully completed mats + test sequences
+Test duration: 3828 ms 
