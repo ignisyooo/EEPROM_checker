@@ -158,7 +158,7 @@ class Ui_MainWindow(object):
         self.label_10.setWordWrap(True)
         self.label_10.setObjectName("label_10")
         self.group_short = QtWidgets.QGroupBox(self.centralwidget)
-        self.group_short.setGeometry(QtCore.QRect(30, 710, 441, 141))
+        self.group_short.setGeometry(QtCore.QRect(30, 710, 441, 171))
         font = QtGui.QFont()
         font.setPointSize(11)
         self.group_short.setFont(font)
@@ -167,12 +167,13 @@ class Ui_MainWindow(object):
         self.start_short.setGeometry(QtCore.QRect(310, 30, 121, 51))
         self.start_short.setObjectName("start_short")
         self.label_11 = QtWidgets.QLabel(self.group_short)
-        self.label_11.setGeometry(QtCore.QRect(10, 110, 421, 16))
+        self.label_11.setGeometry(QtCore.QRect(10, 90, 421, 71))
         font = QtGui.QFont()
         font.setFamily("Calibri")
         font.setPointSize(9)
         font.setItalic(True)
         self.label_11.setFont(font)
+        self.label_11.setWordWrap(True)
         self.label_11.setObjectName("label_11")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -237,7 +238,7 @@ class Ui_MainWindow(object):
         self.label_10.setText(_translate("MainWindow", "info o mats+, zmiesci sie 7 linijek tekstu"))         ################################################################
         self.group_short.setTitle(_translate("MainWindow", "Short bit test"))
         self.start_short.setText(_translate("MainWindow", "Start"))
-        self.label_11.setText(_translate("MainWindow", "Writing and reading 0x55 value to a given address"))
+        self.label_11.setText(_translate("MainWindow", "info o short, zmieszcza sie 4 linijki tekstu"))       ################################################################
 
 
     def f_connect_button(self, text):
