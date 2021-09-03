@@ -235,9 +235,7 @@ class Ui_MainWindow(object):
         self.label_2.setText(_translate("MainWindow", "Writing and reading given value to address 0x00"))
         self.group_mats.setTitle(_translate("MainWindow", "Mats+ test"))
         self.start_mats.setText(_translate("MainWindow", "Start"))
-        self.label_10.setText(_translate("MainWindow", "The test executes the 0xFF and 0x00 write sequences\nStep1: Write 0x00 to address 0 to n - 1\n\
-                                                        Step2: From address 0 to n -1 : Read value (expected 0) - > write 0xFF\n\
-                                                        Step3: From address n- 1 to 0: Read value (expected 0xFF) - > write 0x00\n"))
+        self.label_10.setText(_translate("MainWindow", "The test executes the 0xFF and 0x00 write sequences\n\nStep1: Write 0x00 to address 0 to n - 1\nStep2: From address 0 to n -1 : Read value (expected 0) - > write 0xFF\nStep3: From address n- 1 to 0: Read value (expected 0xFF) - >\n             write 0x00"))
         self.group_short.setTitle(_translate("MainWindow", "Short bit test"))
         self.start_short.setText(_translate("MainWindow", "Start"))
         self.label_11.setText(_translate("MainWindow", "The test write value 0x55 to all memory cells, and then check if there is any short circuit between bits\n"))
